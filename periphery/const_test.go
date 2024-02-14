@@ -4,10 +4,10 @@ import (
 	"math/big"
 
 	core "github.com/daoleno/uniswap-sdk-core/entities"
-	"github.com/daoleno/uniswapv3-sdk/constants"
-	"github.com/daoleno/uniswapv3-sdk/entities"
-	"github.com/daoleno/uniswapv3-sdk/utils"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/katori216/uniswapv3-sdk/constants"
+	"github.com/katori216/uniswapv3-sdk/entities"
+	"github.com/katori216/uniswapv3-sdk/utils"
 )
 
 var (

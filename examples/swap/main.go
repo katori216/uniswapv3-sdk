@@ -8,12 +8,12 @@ import (
 	"log"
 
 	coreEntities "github.com/daoleno/uniswap-sdk-core/entities"
-	"github.com/daoleno/uniswapv3-sdk/constants"
-	"github.com/daoleno/uniswapv3-sdk/entities"
-	"github.com/daoleno/uniswapv3-sdk/examples/helper"
-	"github.com/daoleno/uniswapv3-sdk/periphery"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/katori216/uniswapv3-sdk/constants"
+	"github.com/katori216/uniswapv3-sdk/entities"
+	"github.com/katori216/uniswapv3-sdk/examples/helper"
+	"github.com/katori216/uniswapv3-sdk/periphery"
 )
 
 func init() {
