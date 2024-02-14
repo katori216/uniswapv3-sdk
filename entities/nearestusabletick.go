@@ -3,7 +3,7 @@ package entities
 import (
 	"math"
 
-	"github.com/daoleno/uniswapv3-sdk/utils"
+	"github.com/katori216/uniswapv3-sdk/utils"
 )
 
 /**
