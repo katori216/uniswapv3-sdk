@@ -6,7 +6,7 @@ import (
 	"sort"
 
 	"github.com/daoleno/uniswap-sdk-core/entities"
-	"github.com/daoleno/uniswapv3-sdk/constants"
+	"github.com/katori216/uniswapv3-sdk/constants"
 	"github.com/ethereum/go-ethereum/common"
 )
 
