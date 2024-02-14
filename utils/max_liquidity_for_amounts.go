@@ -3,7 +3,7 @@ package utils
 import (
 	"math/big"
 
-	"github.com/daoleno/uniswapv3-sdk/constants"
+	"github.com/katori216/uniswapv3-sdk/constants"
 )
 
 /**
