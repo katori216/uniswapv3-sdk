@@ -2,6 +2,7 @@ package entities
 
 import (
 	"errors"
+	"fmt"
 	"math"
 	"math/big"
 
@@ -67,6 +68,7 @@ func GetTick(ticks []Tick, index int) Tick {
 
 func NextInitializedTick(ticks []Tick, tick int, lte bool) Tick {
 	if lte {
+		fmt.Println(ticks[0].Index)
 		if IsBelowSmallest(ticks, tick) {
 			panic("below smallest")
 		}
