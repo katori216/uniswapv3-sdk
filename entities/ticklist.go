@@ -4,6 +4,8 @@ import (
 	"errors"
 	"math"
 	"math/big"
+
+	"github.com/katori216/uniswapv3-sdk/constants"
 )
 
 var (
@@ -107,6 +109,17 @@ func NextInitializedTickWithinOneWord(ticks []Tick, tick int, lte bool, tickSpac
 		nextInitializedTick := math.Min(float64(maximum), float64(index))
 		return int(nextInitializedTick), int(nextInitializedTick) == index
 	}
+}
+
+func NextInitializedTickIndex(ticks []Tick, tick int, lte bool) (int, bool) {
+	nextInitializedTick := NextInitializedTick(ticks, tick, lte)
+
+	var isInitialized bool
+	if nextInitializedTick.LiquidityGross.Cmp(constants.Zero) != 0 {
+		isInitialized = true
+	}
+
+	return nextInitializedTick.Index, isInitialized
 }
 
 // utils
