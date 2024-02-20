@@ -17,7 +17,7 @@ var (
 	token0T = core.NewToken(1, common.HexToAddress("0x0000000000000000000000000000000000000001"), 18, "t0", "token0")
 	token1T = core.NewToken(1, common.HexToAddress("0x0000000000000000000000000000000000000002"), 18, "t1", "token1")
 
-	feeT = constants.FeeMedium
+	feeT = constants.F3000
 
 	pool01T, _    = entities.NewPool(token0T, token1T, feeT, utils.EncodeSqrtRatioX96(big.NewInt(1), big.NewInt(1)), big.NewInt(0), 0, nil)
 	pool1wethT, _ = entities.NewPool(token1T, core.WETH9[1], feeT, utils.EncodeSqrtRatioX96(big.NewInt(1), big.NewInt(1)), big.NewInt(0), 0, nil)
@@ -38,7 +38,7 @@ func TestCreateCallParameters(t *testing.T) {
 
 func TestAddCallParameters(t *testing.T) {
 	// throws if liquidity is 0
-	pos, err := entities.NewPosition(pool01T, big.NewInt(0), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err := entities.NewPosition(pool01T, big.NewInt(0), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts := &AddLiquidityOptions{
 		MintSpecificOptions: &MintSpecificOptions{
@@ -53,7 +53,7 @@ func TestAddCallParameters(t *testing.T) {
 	assert.ErrorIs(t, err, ErrZeroLiquidity)
 
 	// throws if pool does not involve ether and useNative is true
-	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &AddLiquidityOptions{
 		MintSpecificOptions: &MintSpecificOptions{
@@ -69,7 +69,7 @@ func TestAddCallParameters(t *testing.T) {
 	assert.ErrorIs(t, err, ErrNoWETH)
 
 	// succeeds for mint
-	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &AddLiquidityOptions{
 		MintSpecificOptions: &MintSpecificOptions{
@@ -86,7 +86,7 @@ func TestAddCallParameters(t *testing.T) {
 	assert.Equal(t, "0x00", utils.ToHex(params.Value))
 
 	// succeeds for increase
-	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &AddLiquidityOptions{
 		IncreaseSpecificOptions: &IncreaseSpecificOptions{
@@ -103,7 +103,7 @@ func TestAddCallParameters(t *testing.T) {
 	assert.Equal(t, "0x00", utils.ToHex(params.Value))
 
 	// createPool
-	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(1), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &AddLiquidityOptions{
 		CommonAddLiquidityOptions: &CommonAddLiquidityOptions{
@@ -121,7 +121,7 @@ func TestAddCallParameters(t *testing.T) {
 	assert.Equal(t, "0x00", utils.ToHex(params.Value))
 
 	// useNative
-	pos, err = entities.NewPosition(pool1wethT, big.NewInt(1), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool1wethT, big.NewInt(1), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &AddLiquidityOptions{
 		CommonAddLiquidityOptions: &CommonAddLiquidityOptions{
@@ -169,7 +169,7 @@ func TestCollectCallParameters(t *testing.T) {
 
 func TestRemoveCallParameters(t *testing.T) {
 	// throws for 0 liquidity
-	pos, err := entities.NewPosition(pool01T, big.NewInt(0), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err := entities.NewPosition(pool01T, big.NewInt(0), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts := &RemoveLiquidityOptions{
 		TokenID:             tokenIDT,
@@ -186,7 +186,7 @@ func TestRemoveCallParameters(t *testing.T) {
 	assert.Error(t, err, ErrZeroLiquidity)
 
 	// throws for 0 liquidity from small percentage
-	pos, err = entities.NewPosition(pool01T, big.NewInt(50), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(50), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &RemoveLiquidityOptions{
 		TokenID:             tokenIDT,
@@ -203,7 +203,7 @@ func TestRemoveCallParameters(t *testing.T) {
 	assert.Error(t, err, ErrZeroLiquidity)
 
 	// throws for bad burn
-	pos, err = entities.NewPosition(pool01T, big.NewInt(50), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(50), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &RemoveLiquidityOptions{
 		TokenID:             tokenIDT,
@@ -221,7 +221,7 @@ func TestRemoveCallParameters(t *testing.T) {
 	assert.Error(t, err, ErrCannotBurn)
 
 	// works
-	pos, err = entities.NewPosition(pool01T, big.NewInt(100), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(100), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &RemoveLiquidityOptions{
 		TokenID:             tokenIDT,
@@ -240,7 +240,7 @@ func TestRemoveCallParameters(t *testing.T) {
 	assert.Equal(t, "0x00", utils.ToHex(params.Value))
 
 	// works for partial
-	pos, err = entities.NewPosition(pool01T, big.NewInt(100), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(100), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &RemoveLiquidityOptions{
 		TokenID:             tokenIDT,
@@ -278,7 +278,7 @@ func TestRemoveCallParameters(t *testing.T) {
 		owed0Token = core.EtherOnChain(1).Wrapped()
 		owed1Token = token1T
 	}
-	pos, err = entities.NewPosition(pool01T, big.NewInt(100), -constants.TickSpacings[constants.FeeMedium], constants.TickSpacings[constants.FeeMedium])
+	pos, err = entities.NewPosition(pool01T, big.NewInt(100), -constants.TickSpacings[constants.F3000], constants.TickSpacings[constants.F3000])
 	assert.NoError(t, err)
 	opts = &RemoveLiquidityOptions{
 		TokenID:             tokenIDT,

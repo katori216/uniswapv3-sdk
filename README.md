@@ -40,25 +40,25 @@ func main() {
 	// create demo ticks
 	ticks := []entities.Tick{
 		{
-			Index:          entities.NearestUsableTick(utils.MinTick, constants.TickSpacings[constants.FeeLow]),
+			Index:          entities.NearestUsableTick(utils.MinTick, constants.TickSpacings[constants.F500]),
 			LiquidityNet:   OneEther,
 			LiquidityGross: OneEther,
 		},
 		{
-			Index:          entities.NearestUsableTick(utils.MaxTick, constants.TickSpacings[constants.FeeLow]),
+			Index:          entities.NearestUsableTick(utils.MaxTick, constants.TickSpacings[constants.F500]),
 			LiquidityNet:   new(big.Int).Mul(OneEther, constants.NegativeOne),
 			LiquidityGross: OneEther,
 		},
 	}
 
 	// create tick data provider
-	p, err := entities.NewTickListDataProvider(ticks, constants.TickSpacings[constants.FeeLow])
+	p, err := entities.NewTickListDataProvider(ticks, constants.TickSpacings[constants.F500])
 	if err != nil {
 		panic(err)
 	}
 
 	// new pool
-	pool, err := entities.NewPool(USDC, DAI, constants.FeeLow, utils.EncodeSqrtRatioX96(constants.One, constants.One), OneEther, 0, p)
+	pool, err := entities.NewPool(USDC, DAI, constants.F500, utils.EncodeSqrtRatioX96(constants.One, constants.One), OneEther, 0, p)
 	if err != nil {
 		panic(err)
 	}

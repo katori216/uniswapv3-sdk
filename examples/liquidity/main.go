@@ -22,7 +22,7 @@ import (
 func mintOrAdd(client *ethclient.Client, wallet *helper.Wallet, tokenID *big.Int) {
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
 
-	pool, err := helper.ConstructV3Pool(client, helper.WMATIC, helper.AMP, uint64(constants.FeeMedium))
+	pool, err := helper.ConstructV3Pool(client, helper.WMATIC, helper.AMP, uint64(constants.F3000))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +86,7 @@ func mintOrAdd(client *ethclient.Client, wallet *helper.Wallet, tokenID *big.Int
 
 func remove(client *ethclient.Client, wallet *helper.Wallet, tokenID *big.Int) {
 	//our pool is the fee medium pool
-	pool, err := helper.ConstructV3Pool(client, helper.WMATIC, helper.AMP, uint64(constants.FeeMedium))
+	pool, err := helper.ConstructV3Pool(client, helper.WMATIC, helper.AMP, uint64(constants.F3000))
 	if err != nil {
 		log.Fatal(err)
 	}

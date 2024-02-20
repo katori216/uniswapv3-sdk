@@ -3,6 +3,7 @@ package entities
 import (
 	"errors"
 	"math/big"
+	"strconv"
 
 	"github.com/daoleno/uniswap-sdk-core/entities"
 	"github.com/ethereum/go-ethereum/common"
@@ -37,6 +38,8 @@ type Pool struct {
 	Liquidity        *big.Int
 	TickCurrent      int
 	TickDataProvider TickDataProvider
+	DynamicFee       bool
+	TickSpacings     map[string]interface{}
 
 	token0Price *entities.Price
 	token1Price *entities.Price
@@ -57,7 +60,7 @@ func GetAddress(tokenA, tokenB *entities.Token, fee constants.FeeAmount, initCod
  * @param ticks The current state of the pool ticks or a data provider that can return tick data
  */
 func NewPool(tokenA, tokenB *entities.Token, fee constants.FeeAmount, sqrtRatioX96 *big.Int, liquidity *big.Int, tickCurrent int, ticks TickDataProvider) (*Pool, error) {
-	if fee >= constants.FeeMax {
+	if fee >= constants.F100000 {
 		return nil, ErrFeeTooHigh
 	}
 
@@ -328,5 +331,15 @@ func (p *Pool) swap(zeroForOne bool, amountSpecified, sqrtPriceLimitX96 *big.Int
 }
 
 func (p *Pool) tickSpacing() int {
+	if p.DynamicFee {
+		return 60
+	}
+	if p.TickSpacings != nil {
+		strFee := strconv.FormatUint(uint64(p.Fee), 10)
+		tickSpacing, ok := p.TickSpacings[strFee].(int)
+		if ok {
+			return tickSpacing
+		}
+	}
 	return constants.TickSpacings[p.Fee]
 }

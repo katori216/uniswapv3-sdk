@@ -19,10 +19,10 @@ var (
 
 	weth = ether.Wrapped()
 
-	pool_0_1_medium, _ = entities.NewPool(token0, token1, constants.FeeMedium, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
-	pool_1_2_low, _    = entities.NewPool(token1, token2, constants.FeeLow, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
-	pool_0_weth, _     = entities.NewPool(token0, weth, constants.FeeMedium, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
-	pool_1_weth, _     = entities.NewPool(token1, weth, constants.FeeMedium, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
+	pool_0_1_medium, _ = entities.NewPool(token0, token1, constants.F3000, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
+	pool_1_2_low, _    = entities.NewPool(token1, token2, constants.F500, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
+	pool_0_weth, _     = entities.NewPool(token0, weth, constants.F3000, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
+	pool_1_weth, _     = entities.NewPool(token1, weth, constants.F3000, utils.EncodeSqrtRatioX96(constants.One, constants.One), big.NewInt(0), 0, nil)
 
 	route_0_1, _   = entities.NewRoute([]*entities.Pool{pool_0_1_medium}, token0, token1)
 	route_0_1_2, _ = entities.NewRoute([]*entities.Pool{pool_0_1_medium, pool_1_2_low}, token0, token2)
@@ -32,7 +32,7 @@ var (
 	route_weth_0, _   = entities.NewRoute([]*entities.Pool{pool_0_weth}, weth, token0)
 	route_weth_0_1, _ = entities.NewRoute([]*entities.Pool{pool_0_weth, pool_0_1_medium}, weth, token1)
 
-	feeAmount    = constants.FeeMedium
+	feeAmount    = constants.F3000
 	sqrtRatioX96 = utils.EncodeSqrtRatioX96(big.NewInt(1), big.NewInt(1))
 	liquidity    = big.NewInt(1_000_000)
 	tick, _      = utils.GetTickAtSqrtRatio(sqrtRatioX96)

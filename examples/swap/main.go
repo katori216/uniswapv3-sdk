@@ -30,7 +30,7 @@ func main() {
 		log.Fatal("init wallet failed")
 	}
 
-	pool, err := helper.ConstructV3Pool(client, helper.WMATIC, helper.AMP, uint64(constants.FeeMedium))
+	pool, err := helper.ConstructV3Pool(client, helper.WMATIC, helper.AMP, uint64(constants.F3000))
 	if err != nil {
 		log.Fatal(err)
 	}
