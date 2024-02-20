@@ -58,7 +58,7 @@ func main() {
 	}
 
 	// new pool
-	pool, err := entities.NewPool(USDC, DAI, constants.F500, utils.EncodeSqrtRatioX96(constants.One, constants.One), OneEther, 0, p)
+	pool, err := entities.NewPool(USDC, DAI, constants.F500, utils.EncodeSqrtRatioX96(constants.One, constants.One), OneEther, 0, p, false, nil)
 	if err != nil {
 		panic(err)
 	}

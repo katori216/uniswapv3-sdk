@@ -79,5 +79,5 @@ func ConstructV3Pool(client *ethclient.Client, token0, token1 *coreEntities.Toke
 	}
 
 	return entities.NewPool(token0, token1, constants.FeeAmount(poolFee),
-		slot0.SqrtPriceX96, liquidity, int(slot0.Tick.Int64()), p)
+		slot0.SqrtPriceX96, liquidity, int(slot0.Tick.Int64()), p, false, nil)
 }
