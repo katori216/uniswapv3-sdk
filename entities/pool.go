@@ -3,7 +3,6 @@ package entities
 import (
 	"errors"
 	"math/big"
-	"strconv"
 
 	"github.com/daoleno/uniswap-sdk-core/entities"
 	"github.com/ethereum/go-ethereum/common"
@@ -38,8 +37,7 @@ type Pool struct {
 	Liquidity        *big.Int
 	TickCurrent      int
 	TickDataProvider TickDataProvider
-	DynamicFee       bool
-	TickSpacings     *map[string]interface{}
+	TickSpacingData  *int
 
 	token0Price *entities.Price
 	token1Price *entities.Price
@@ -67,8 +65,7 @@ func NewPool(
 	liquidity *big.Int,
 	tickCurrent int,
 	ticks TickDataProvider,
-	dynamicFee bool,
-	tickSpacings *map[string]interface{},
+	tickSpacingData *int,
 ) (*Pool, error) {
 	if fee >= constants.F100000 {
 		return nil, ErrFeeTooHigh
@@ -105,8 +102,7 @@ func NewPool(
 		Liquidity:        liquidity,
 		TickCurrent:      tickCurrent,
 		TickDataProvider: ticks, // TODO: new tick data provider
-		DynamicFee:       dynamicFee,
-		TickSpacings:     tickSpacings,
+		TickSpacingData:  tickSpacingData,
 	}, nil
 }
 
@@ -178,7 +174,7 @@ func (p *Pool) GetOutputAmount(inputAmount *entities.CurrencyAmount, sqrtPriceLi
 	} else {
 		outputToken = p.Token0
 	}
-	pool, err := NewPool(p.Token0, p.Token1, p.Fee, sqrtRatioX96, liquidity, tickCurrent, p.TickDataProvider, p.DynamicFee, p.TickSpacings)
+	pool, err := NewPool(p.Token0, p.Token1, p.Fee, sqrtRatioX96, liquidity, tickCurrent, p.TickDataProvider, p.TickSpacingData)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -206,7 +202,7 @@ func (p *Pool) GetInputAmount(outputAmount *entities.CurrencyAmount, sqrtPriceLi
 	} else {
 		inputToken = p.Token1
 	}
-	pool, err := NewPool(p.Token0, p.Token1, p.Fee, sqrtRatioX96, liquidity, tickCurrent, p.TickDataProvider, p.DynamicFee, p.TickSpacings)
+	pool, err := NewPool(p.Token0, p.Token1, p.Fee, sqrtRatioX96, liquidity, tickCurrent, p.TickDataProvider, p.TickSpacingData)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -343,16 +339,8 @@ func (p *Pool) swap(zeroForOne bool, amountSpecified, sqrtPriceLimitX96 *big.Int
 }
 
 func (p *Pool) tickSpacing() int {
-	if p.DynamicFee {
-		return 60
-	}
-	if p.TickSpacings != nil {
-		strFee := strconv.FormatUint(uint64(p.Fee), 10)
-		tickSpacings := *p.TickSpacings
-		tickSpacing, ok := tickSpacings[strFee].(int)
-		if ok {
-			return tickSpacing
-		}
+	if p.TickSpacingData != nil {
+		return *p.TickSpacingData
 	}
 	return constants.TickSpacings[p.Fee]
 }

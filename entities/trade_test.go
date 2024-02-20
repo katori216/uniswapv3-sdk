@@ -99,7 +99,7 @@ func v2StylePool(token0, token1 *entities.Token, reserve0, reserve1 *entities.Cu
 	if err != nil {
 		panic(err)
 	}
-	pool, err := NewPool(token0, token1, feeAmount, sqrtRatioX96, liquidity, s, p, false, nil)
+	pool, err := NewPool(token0, token1, feeAmount, sqrtRatioX96, liquidity, s, p, nil)
 	if err != nil {
 		panic(err)
 	}
