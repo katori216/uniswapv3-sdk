@@ -59,7 +59,17 @@ func GetAddress(tokenA, tokenB *entities.Token, fee constants.FeeAmount, initCod
  * @param tickCurrent The current tick of the pool
  * @param ticks The current state of the pool ticks or a data provider that can return tick data
  */
-func NewPool(tokenA, tokenB *entities.Token, fee constants.FeeAmount, sqrtRatioX96 *big.Int, liquidity *big.Int, tickCurrent int, ticks TickDataProvider) (*Pool, error) {
+func NewPool(
+	tokenA,
+	tokenB *entities.Token,
+	fee constants.FeeAmount,
+	sqrtRatioX96 *big.Int,
+	liquidity *big.Int,
+	tickCurrent int,
+	ticks TickDataProvider,
+	dynamicFee bool,
+	tickSpacings map[string]interface{},
+) (*Pool, error) {
 	if fee >= constants.F100000 {
 		return nil, ErrFeeTooHigh
 	}
@@ -95,6 +105,8 @@ func NewPool(tokenA, tokenB *entities.Token, fee constants.FeeAmount, sqrtRatioX
 		Liquidity:        liquidity,
 		TickCurrent:      tickCurrent,
 		TickDataProvider: ticks, // TODO: new tick data provider
+		DynamicFee:       dynamicFee,
+		TickSpacings:     tickSpacings,
 	}, nil
 }
 
