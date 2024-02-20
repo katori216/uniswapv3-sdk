@@ -39,7 +39,7 @@ type Pool struct {
 	TickCurrent      int
 	TickDataProvider TickDataProvider
 	DynamicFee       bool
-	TickSpacings     map[string]interface{}
+	TickSpacings     *map[string]interface{}
 
 	token0Price *entities.Price
 	token1Price *entities.Price
@@ -68,7 +68,7 @@ func NewPool(
 	tickCurrent int,
 	ticks TickDataProvider,
 	dynamicFee bool,
-	tickSpacings map[string]interface{},
+	tickSpacings *map[string]interface{},
 ) (*Pool, error) {
 	if fee >= constants.F100000 {
 		return nil, ErrFeeTooHigh
@@ -348,7 +348,8 @@ func (p *Pool) tickSpacing() int {
 	}
 	if p.TickSpacings != nil {
 		strFee := strconv.FormatUint(uint64(p.Fee), 10)
-		tickSpacing, ok := p.TickSpacings[strFee].(int)
+		tickSpacings := *p.TickSpacings
+		tickSpacing, ok := tickSpacings[strFee].(int)
 		if ok {
 			return tickSpacing
 		}
